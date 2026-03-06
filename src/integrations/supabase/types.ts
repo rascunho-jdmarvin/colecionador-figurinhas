@@ -14,16 +14,402 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      album_players: {
+        Row: {
+          album_id: string
+          club: string | null
+          country: string
+          created_at: string
+          id: string
+          image_url: string | null
+          name: string
+          nickname: string | null
+          position: string
+          rarity: Database["public"]["Enums"]["rarity_type"]
+          rating: number
+          sticker_number: number
+        }
+        Insert: {
+          album_id: string
+          club?: string | null
+          country: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name: string
+          nickname?: string | null
+          position: string
+          rarity?: Database["public"]["Enums"]["rarity_type"]
+          rating?: number
+          sticker_number: number
+        }
+        Update: {
+          album_id?: string
+          club?: string | null
+          country?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          nickname?: string | null
+          position?: string
+          rarity?: Database["public"]["Enums"]["rarity_type"]
+          rating?: number
+          sticker_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "album_players_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      albums: {
+        Row: {
+          cover_image_url: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      daily_packs: {
+        Row: {
+          album_id: string
+          cards_received: string[]
+          created_at: string
+          id: string
+          opened_date: string
+          user_id: string
+        }
+        Insert: {
+          album_id: string
+          cards_received?: string[]
+          created_at?: string
+          id?: string
+          opened_date?: string
+          user_id: string
+        }
+        Update: {
+          album_id?: string
+          cards_received?: string[]
+          created_at?: string
+          id?: string
+          opened_date?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_packs_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      establishment_stickers: {
+        Row: {
+          album_id: string
+          created_at: string
+          description: string | null
+          discount_text: string | null
+          establishment_user_id: string
+          id: string
+          image_url: string | null
+          is_active: boolean
+          latitude: number
+          longitude: number
+          name: string
+          nickname: string | null
+          radius_meters: number
+          updated_at: string
+        }
+        Insert: {
+          album_id: string
+          created_at?: string
+          description?: string | null
+          discount_text?: string | null
+          establishment_user_id: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          latitude: number
+          longitude: number
+          name: string
+          nickname?: string | null
+          radius_meters?: number
+          updated_at?: string
+        }
+        Update: {
+          album_id?: string
+          created_at?: string
+          description?: string | null
+          discount_text?: string | null
+          establishment_user_id?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          latitude?: number
+          longitude?: number
+          name?: string
+          nickname?: string | null
+          radius_meters?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "establishment_stickers_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      quiz_attempts: {
+        Row: {
+          attempt_number: number
+          created_at: string
+          guessed_player_id: string | null
+          id: string
+          is_correct: boolean
+          quiz_id: string
+          user_id: string
+        }
+        Insert: {
+          attempt_number?: number
+          created_at?: string
+          guessed_player_id?: string | null
+          id?: string
+          is_correct?: boolean
+          quiz_id: string
+          user_id: string
+        }
+        Update: {
+          attempt_number?: number
+          created_at?: string
+          guessed_player_id?: string | null
+          id?: string
+          is_correct?: boolean
+          quiz_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_attempts_guessed_player_id_fkey"
+            columns: ["guessed_player_id"]
+            isOneToOne: false
+            referencedRelation: "album_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quiz_daily"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_daily: {
+        Row: {
+          album_player_id: string
+          created_at: string
+          hints: Json
+          id: string
+          quiz_date: string
+        }
+        Insert: {
+          album_player_id: string
+          created_at?: string
+          hints?: Json
+          id?: string
+          quiz_date?: string
+        }
+        Update: {
+          album_player_id?: string
+          created_at?: string
+          hints?: Json
+          id?: string
+          quiz_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_daily_album_player_id_fkey"
+            columns: ["album_player_id"]
+            isOneToOne: false
+            referencedRelation: "album_players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trades: {
+        Row: {
+          created_at: string
+          from_user_id: string
+          id: string
+          offered_player_id: string
+          requested_player_id: string
+          status: Database["public"]["Enums"]["trade_status"]
+          to_user_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          from_user_id: string
+          id?: string
+          offered_player_id: string
+          requested_player_id: string
+          status?: Database["public"]["Enums"]["trade_status"]
+          to_user_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          from_user_id?: string
+          id?: string
+          offered_player_id?: string
+          requested_player_id?: string
+          status?: Database["public"]["Enums"]["trade_status"]
+          to_user_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trades_offered_player_id_fkey"
+            columns: ["offered_player_id"]
+            isOneToOne: false
+            referencedRelation: "album_players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trades_requested_player_id_fkey"
+            columns: ["requested_player_id"]
+            isOneToOne: false
+            referencedRelation: "album_players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_collections: {
+        Row: {
+          album_player_id: string
+          collected_at: string
+          id: string
+          quantity: number
+          user_id: string
+        }
+        Insert: {
+          album_player_id: string
+          collected_at?: string
+          id?: string
+          quantity?: number
+          user_id: string
+        }
+        Update: {
+          album_player_id?: string
+          collected_at?: string
+          id?: string
+          quantity?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_collections_album_player_id_fkey"
+            columns: ["album_player_id"]
+            isOneToOne: false
+            referencedRelation: "album_players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "user" | "establishment" | "admin"
+      rarity_type: "common" | "rare" | "legendary"
+      trade_status: "pending" | "accepted" | "rejected" | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +536,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["user", "establishment", "admin"],
+      rarity_type: ["common", "rare", "legendary"],
+      trade_status: ["pending", "accepted", "rejected", "cancelled"],
+    },
   },
 } as const
